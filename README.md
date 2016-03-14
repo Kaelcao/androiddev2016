@@ -10,5 +10,10 @@ Students are expected to:
 
 Project description
 =====================================
+*Project Topic*
+Drawing App
 
-*Add your project description here*
+*Group Member*
+Cao Anh Quan - USTHBI4-125
+Nguyen Mai Trang -USTHBI4-145
+Do Son Tung - USTHBI4-157
