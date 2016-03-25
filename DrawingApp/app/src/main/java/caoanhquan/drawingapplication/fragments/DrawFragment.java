@@ -96,6 +96,8 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -153,7 +155,21 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+            	AlertDialog.Builder newDialog = new AlertDialog.Builder(getContext());
+                newDialog.setTitle("New drawing");
+                newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+                newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDrawingView.startNew();
+                        dialog.dismiss();
+                    }
+                });
+                newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                newDialog.show();
             }
         });
 
@@ -161,7 +177,35 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+            	   AlertDialog.Builder saveDialog = new AlertDialog.Builder(getContext());
+                saveDialog.setTitle("Save drawing");
+                saveDialog.setMessage("Save drawing to device Gallery?");
+                saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+//                        //save
+//                        mDrawingView.setDrawingCacheEnabled(true);
+//                        String imgSaved = MediaStore.Images.Media.insertImage(
+//                                getActivity().getContentResolver(), mDrawingView.getDrawingCache(),
+//                                UUID.randomUUID().toString() + ".png", "drawing");
+//                        if (imgSaved != null) {
+//                            Toast savedToast = Toast.makeText(getContext(),
+//                                    "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
+//                            savedToast.show();
+//                        } else {
+//                            Toast unsavedToast = Toast.makeText(getContext(),
+//                                    "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
+//                            unsavedToast.show();
+//                        }
+//                        mDrawingView.destroyDrawingCache();
+                        takeScreenshot();
+                    }
+                });
+                saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                saveDialog.show();
             }
         });
     }
@@ -179,6 +223,53 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mDrawingView.setBrushSize(mDrawingView.getLastBrushSize());
 
     }
+
+   private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+//            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + UUID.randomUUID().toString() + ".jpg";
+            String mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/" + UUID.randomUUID().toString() + ".jpg";
+
+            // create bitmap screen capture
+            mDrawingView.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(mDrawingView.getDrawingCache());
+            mDrawingView.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
+            openScreenshot(imageFile);
+            mDrawingView.destroyDrawingCache();
+            galleryAddPic(imageFile);
+        } catch (Throwable e) {
+            // Several error may come out with file handling or OOM
+            e.printStackTrace();
+        }
+    }
+
+    private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
+    }
+
+    private void galleryAddPic(File f) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaScanIntent);
+    }
+
 
     @Override
     public void onClick(View view) {
