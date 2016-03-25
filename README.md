@@ -7,6 +7,9 @@ Students are expected to:
 * Append name (and purpose) of your project to this README file
 * Push your commits regularly, with **proper** commit messages
 
+You can click on register button to pass throught the authenticate and login to the Application
+=====================================
+
 
 Project description
 =====================================
