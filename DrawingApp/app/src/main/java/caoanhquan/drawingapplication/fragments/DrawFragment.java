@@ -1,6 +1,7 @@
 package caoanhquan.drawingapplication.fragments;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -42,7 +43,37 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mEraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                final Dialog brushDialog = new Dialog(getContext());
+                brushDialog.setTitle("Eraser size:");
+                brushDialog.setContentView(R.layout.brush_chooser);
+                ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
+                smallBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawingView.setErase(true);
+                        mDrawingView.setBrushSize(smallBrush);
+                        brushDialog.dismiss();
+                    }
+                });
+                ImageButton mediumBtn = (ImageButton) brushDialog.findViewById(R.id.medium_brush);
+                mediumBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawingView.setErase(true);
+                        mDrawingView.setBrushSize(mediumBrush);
+                        brushDialog.dismiss();
+                    }
+                });
+                ImageButton largeBtn = (ImageButton) brushDialog.findViewById(R.id.large_brush);
+                largeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawingView.setErase(true);
+                        mDrawingView.setBrushSize(largeBrush);
+                        brushDialog.dismiss();
+                    }
+                });
+                brushDialog.show();
             }
         });
 
@@ -78,7 +109,41 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mDrawButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final Dialog brushDialog = new Dialog(getContext());
+                brushDialog.setTitle("Brush size:");
+                brushDialog.setContentView(R.layout.brush_chooser);
+                ImageButton smallBtn = (ImageButton) brushDialog.findViewById(R.id.small_brush);
+                smallBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawingView.setBrushSize(smallBrush);
+                        mDrawingView.setLastBrushSize(smallBrush);
+                        mDrawingView.setErase(false);
+                        brushDialog.dismiss();
+                    }
+                });
+                ImageButton mediumBtn = (ImageButton) brushDialog.findViewById(R.id.medium_brush);
+                mediumBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawingView.setBrushSize(mediumBrush);
+                        mDrawingView.setLastBrushSize(mediumBrush);
+                        mDrawingView.setErase(false);
+                        brushDialog.dismiss();
+                    }
+                });
 
+                ImageButton largeBtn = (ImageButton) brushDialog.findViewById(R.id.large_brush);
+                largeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawingView.setBrushSize(largeBrush);
+                        mDrawingView.setLastBrushSize(largeBrush);
+                        mDrawingView.setErase(false);
+                        brushDialog.dismiss();
+                    }
+                });
+                brushDialog.show();
             }
 
 
