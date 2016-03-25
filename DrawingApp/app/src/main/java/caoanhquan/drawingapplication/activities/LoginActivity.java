@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 //        getSupportActionBar().hide();
         mLoginButton = (Button) findViewById(R.id.btn_login);
         mRegisterButton = (Button) findViewById(R.id.btn_register);
-        final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), DrawActivity.class);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
