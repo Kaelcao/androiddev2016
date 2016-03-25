@@ -2,17 +2,31 @@ package caoanhquan.drawingapplication.fragments;
 
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.UUID;
 
 import caoanhquan.drawingapplication.R;
+import caoanhquan.drawingapplication.activities.MainActivity;
 import caoanhquan.drawingapplication.customviews.DrawingView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -155,7 +169,7 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            	AlertDialog.Builder newDialog = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder newDialog = new AlertDialog.Builder(getContext());
                 newDialog.setTitle("New drawing");
                 newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
                 newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -177,7 +191,7 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            	   AlertDialog.Builder saveDialog = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder saveDialog = new AlertDialog.Builder(getContext());
                 saveDialog.setTitle("Save drawing");
                 saveDialog.setMessage("Save drawing to device Gallery?");
                 saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -224,7 +238,8 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
 
     }
 
-   private void takeScreenshot() {
+
+    private void takeScreenshot() {
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
 
@@ -271,7 +286,6 @@ public class DrawFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
     public void onClick(View view) {
         paintClicked(view);
     }
