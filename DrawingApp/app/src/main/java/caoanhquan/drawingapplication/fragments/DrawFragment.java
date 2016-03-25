@@ -3,17 +3,24 @@ package caoanhquan.drawingapplication.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import caoanhquan.drawingapplication.R;
+import caoanhquan.drawingapplication.customviews.DrawingView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DrawFragment extends Fragment {
+public class DrawFragment extends Fragment implements View.OnClickListener {
 
+    private DrawingView mDrawingView;
+    private ImageButton mCurrPaint, mLibrary, mDrawButton, mEraseButton, mNewButton, mSaveButton;
+    private float smallBrush, mediumBrush, largeBrush;
 
     public DrawFragment() {
         // Required empty public constructor
@@ -26,7 +33,6 @@ public class DrawFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_draw, container, false);
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -109,10 +115,8 @@ public class DrawFragment extends Fragment {
 
     }
 
-   
     @Override
     public void onClick(View view) {
         paintClicked(view);
     }
-
 }
